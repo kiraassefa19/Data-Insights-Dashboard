@@ -1,6 +1,7 @@
 import pandas as pd
 from sqlalchemy import create_engine
 import urllib.parse
+import os
 
 # Database Configuration
 DB_USERNAME = "postgres"
@@ -29,9 +30,17 @@ except Exception as e:
 # Create SQLAlchemy engine
 engine = create_engine(DB_URL)
 
-# Load data from Excel files
-apollo_reviews_df = pd.read_excel("../../data/Apollo android review data.xlsx")
-banks_ad_data_df = pd.read_excel("../../data/BANKS AD DATA.xlsx")
+# Define the base directory
+base_dir = os.path.dirname(__file__)
+
+# Load the datasets
+apollo_reviews_df = pd.read_excel(
+    os.path.join(base_dir, "../../data/raw/Apollo android review data.xlsx")
+)
+banks_ad_data_df = pd.read_excel(
+    os.path.join(base_dir, "../../data/raw/BANKS AD DATA.xlsx")
+)
+
 
 # Write data to the database
 apollo_reviews_df.to_sql(

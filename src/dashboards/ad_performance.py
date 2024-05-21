@@ -1,29 +1,27 @@
-import pandas as pd
+from dash import dcc, html
 import plotly.express as px
-from sqlalchemy import create_engine
-import urllib.parse
+import pandas as pd
+import os
 
-# Database Configuration
-DB_USERNAME = "root"
-DB_PASSWORD = "Root@123"
-DB_HOST = "localhost"
-DB_PORT = "5432"
-DB_NAME = "insights"
+# Load the data
+base_dir = os.path.dirname(__file__)
+banks_ad_data_df = pd.read_excel(
+    os.path.join(base_dir, "../../data/raw/BANKS AD DATA.xlsx")
+)
 
-# Encode username and password
-encoded_username = urllib.parse.quote_plus(DB_USERNAME)
-encoded_password = urllib.parse.quote_plus(DB_PASSWORD)
+# Create the plot
+fig = px.line(
+    banks_ad_data_df,
+    x="Date",
+    y="View",
+    color="Bank",
+    title="Banks Ad Performance Over Time",
+)
 
-# MySQL connection URL
-DB_URL = f"mysql://{encoded_username}:{encoded_password}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-
-def plot_ad_performance(engine):
-    query = "SELECT * FROM banks_ad_data"
-    df = pd.read_sql(query, engine)
-    fig = px.line(df, x="date", y="views", color="ad_campaign")
-    fig.show()
-
-
-if __name__ == "__main__":
-    engine = create_engine(DB_URL)
-    plot_ad_performance(engine)
+# Define the layout
+layout = html.Div(
+    [
+        # html.H3("Banks Ad Performance Over Time"), 
+        dcc.Graph(figure=fig)
+    ]
+    )
