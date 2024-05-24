@@ -1,22 +1,18 @@
+# src/dashboards/play_store_reviews.py
 from dash import dcc, html
 import plotly.express as px
-import pandas as pd
 import dashboard_utils as du
 
-# Load the data
+# Use the loaded data from dashboard_utils
 data = du.apollo_reviews_df
-preprocessed_data = data
+preprocessed_data = du.preprocess_data(data)
 
 # Create the plot
 fig = px.histogram(
-    data, x="score", 
-     title="Apollo Android Reviews Rating Distribution"
+    preprocessed_data, x="score", title="Apollo Android Reviews Rating Distribution"
 )
 
 # Define the layout
 layout = html.Div(
-    [
-        # html.H3("Apollo Android Reviews Rating Distribution"), 
-        dcc.Graph(figure=fig)
-     ]
+    [html.H3("Apollo Android Reviews Rating Distribution"), dcc.Graph(figure=fig)]
 )

@@ -1,0 +1,21 @@
+
+# Telegram data dataset
+telegram_data:
+  type: pandas.ExcelDataSet
+  filepath: data/01_raw/telegram_data.xlsx
+  load_args:
+    engine: openpyxl
+
+# Banks ad data dataset
+banks_ad_data:
+  type: pandas.ExcelDataSet
+  filepath: data/01_raw/BANKS AD DATA.xlsx
+  load_args:
+    engine: openpyxl
+
+# Apollo reviews dataset
+apollo_reviews:
+  type: pandas.ExcelDataSet
+  filepath: data/01_raw/Apollo android review data.xlsx
+  load_args:
+    engine: openpyxl

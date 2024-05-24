@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Root@123
+      POSTGRES_DB: insights
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  redash:
+    image: redash/redash:latest
+    environment:
+      REDASH_DATABASE_URL: postgresql://postgres:Root@123@postgres:5432/insights
+      REDASH_LOG_LEVEL: "INFO"
+      REDASH_REDIS_URL: "redis://redis:6379/0"
+      REDASH_COOKIE_SECRET: "your-secret-here"
+      REDASH_SECRET_KEY: "another-secret-here"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+      - redis
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  postgres_data:

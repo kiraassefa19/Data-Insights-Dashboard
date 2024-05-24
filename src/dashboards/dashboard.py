@@ -16,19 +16,32 @@ import dashboards.telegram_subscription_growth as telegram_subscription_growth
 app = dash.Dash(
     __name__,
     external_stylesheets=[
-        "https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+        "https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
     ],
 )
 
 # Define the layout of the dashboard
 app.layout = html.Div(
-    style={"fontFamily": "Roboto", "display": "flex", "height": "100vh"},
+    style={
+        "fontFamily": "Roboto",
+        "display": "flex",
+        "height": "100vh",
+        "backgroundColor": "#f8f9ea",
+    },
     children=[
         dcc.Location(id="url", refresh=False),
         html.Div(
-            style={"width": "20%", "backgroundColor": "#f8f9fa", "padding": "20px"},
+            style={
+                "width": "20%",
+                "backgroundColor": "#343a40",
+                "padding": "20px",
+                "color": "white",
+                "boxShadow": "2px 0 5px rgba(0,0,0,0.1)",
+            },
             children=[
-                html.H2("Dashboard", style={"textAlign": "center"}),
+                html.H2(
+                    "Dashboard", style={"textAlign": "center", "marginBottom": "40px"}
+                ),
                 html.Ul(
                     [
                         html.Li(
@@ -37,37 +50,67 @@ app.layout = html.Div(
                                 href="/ad-performance",
                                 style={
                                     "textDecoration": "none",
-                                    "color": "inherit",
+                                    "color": "white",
+                                    "padding": "10px",
+                                    "display": "block",
+                                    "borderRadius": "5px",
+                                    "transition": "background-color 0.3s",
                                 },
+                                className="nav-link",
                             ),
-                            style={"marginBottom": "10px", "marginLeft": "20px"},
+                            style={"marginBottom": "10px"},
                         ),
                         html.Li(
                             dcc.Link(
                                 "Play Store Reviews",
                                 href="/play-store-reviews",
-                                style={"textDecoration": "none", "color": "inherit"},
+                                style={
+                                    "textDecoration": "none",
+                                    "color": "white",
+                                    "padding": "10px",
+                                    "display": "block",
+                                    "borderRadius": "5px",
+                                    "transition": "background-color 0.3s",
+                                },
+                                className="nav-link",
                             ),
-                            style={"marginBottom": "10px", "marginLeft": "20px"},
+                            style={"marginBottom": "10px"},
                         ),
                         html.Li(
                             dcc.Link(
                                 "Tikvah Ad Impact",
                                 href="/tikvah-ad-impact",
-                                style={"textDecoration": "none", "color": "inherit"},
+                                style={
+                                    "textDecoration": "none",
+                                    "color": "white",
+                                    "padding": "10px",
+                                    "display": "block",
+                                    "borderRadius": "5px",
+                                    "transition": "background-color 0.3s",
+                                },
+                                className="nav-link",
                             ),
-                            style={"marginBottom": "10px", "marginLeft": "20px"},
+                            style={"marginBottom": "10px"},
                         ),
                         html.Li(
                             dcc.Link(
                                 "Telegram Subscription Growth",
                                 href="/telegram-subscription-growth",
-                                style={"textDecoration": "none", "color": "inherit"},
+                                style={
+                                    "textDecoration": "none",
+                                    "color": "white",
+                                    "padding": "10px",
+                                    "display": "block",
+                                    "borderRadius": "5px",
+                                    "transition": "background-color 0.3s",
+                                },
+                                className="nav-link",
                             ),
-                            style={"marginBottom": "10px", "marginLeft": "20px"},
+                            # style={"marginBottom": "10px"},
                         ),
                     ],
                     style={"listStyleType": "none", "padding": 0, "margin": 0},
+                    className="nav-links",  # Added class name for CSS targeting
                 ),
             ],
         ),
@@ -93,11 +136,49 @@ def display_page(pathname):
     else:
         return html.Div(
             [
-                html.H3("Welcome to the Data Insights Dashboard!"),
-                html.P("Please select a section from the navigation menu."),
+                html.H3(
+                    "Welcome to the Data Insights Dashboard!",
+                    style={
+                        "textAlign": "center",
+                        "marginTop": "50px",
+                        "color": "#495057",
+                    },
+                ),
+                html.P(
+                    "Please select a section from the navigation menu.",
+                    style={"textAlign": "center", "color": "#495057"},
+                ),
             ]
         )
 
+
+# Add custom CSS
+app.index_string = """
+<!DOCTYPE html>
+<html>
+    <head>
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+        <style>
+            body { margin: 0; }
+            .nav-link:hover {
+                background-color: #495057;
+                transition: background-color 0.3s;
+            }
+        </style>
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>
+"""
 
 # Run the Dash application
 if __name__ == "__main__":

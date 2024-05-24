@@ -40,6 +40,9 @@ apollo_reviews_df = pd.read_excel(
 banks_ad_data_df = pd.read_excel(
     os.path.join(base_dir, "../../data/raw/BANKS AD DATA.xlsx")
 )
+telegram_ad_data_df = pd.read_excel(
+    os.path.join(base_dir, "../../data/processed/telegram_data.xlsx")
+)
 
 
 # Write data to the database
@@ -48,4 +51,7 @@ apollo_reviews_df.to_sql(
 )
 banks_ad_data_df.to_sql("banks_ad_data", con=engine, if_exists="replace", index=False)
 
+telegram_ad_data_df.to_sql("telegram_ad_data", engine, if_exists="replace", index=False)
+
 print("Data loaded successfully.")
+
